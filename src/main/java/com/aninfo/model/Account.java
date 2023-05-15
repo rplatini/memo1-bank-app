@@ -1,6 +1,7 @@
 package com.aninfo.model;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 public class Account {
@@ -8,8 +9,9 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long cbu;
-
     private Double balance;
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Collection<Transaction> transactions;
 
     public Account(){
     }
@@ -34,4 +36,7 @@ public class Account {
         this.balance = balance;
     }
 
+    public void addTransaction(Transaction transaction) { this.transactions.add(transaction); }
+
+    public Collection<Transaction> getTransactions() { return transactions; }
 }
